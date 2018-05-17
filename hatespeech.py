@@ -13,12 +13,18 @@ import pandas as pd
 import pickle
 import os
 from keras import backend as K
+from sklearn.metrics import accuracy_score, classification_report
 import sys
 
 os.environ["CUDA_VISIBLE_DEVICES"]="-1"
 script_dir = os.path.dirname(__file__)
-data_dir = '/home/prosa/data/speech/hatespeech/'
+# data_dir = '/home/prosa/data/speech/hatespeech/'
 # script_dir = '/home/prosa/src/hatespeech/'
+
+def evaluate(y_test, y_pred):
+	print("Accuracy : " + str(accuracy_score(y_test, y_pred)))
+	print("Classification Report : ")
+	print(classification_report(y_test, y_pred, digits=4))
 
 def vectorizer(X_train, X_test, n_gram=(1,1)):
 	if (mode == 'count_vectorizer'):
@@ -109,7 +115,12 @@ def embedding(embedding_model, X, em_size, pad_size):
 	print(oov)
 
 	return temp
+def read_one_data(file):
+	preparing = PreparingData()
 
+	data = preparing.read_data(file, 0)
+
+	return data
 def read_data(file, filetest):
 	preparing = PreparingData()
 	# dataTrain = preparing.read_data(fileHate, fileNoHate, 0)
@@ -174,8 +185,8 @@ def read_is09_lld():
 	return read_data(file, filetest)
 
 def read_is10_lld():
-	file = data_dir + "Interspeech/IS10_paraling_lld.csv"
-	filetest = data_dir + "Interspeech/IS10_paraling_lld_test.csv"
+	file = script_dir + "static/arff/IS10_paraling_lld.csv"
+	filetest = script_dir + "static/arff/IS10_paraling_lld_test.csv"
 	return read_data(file, filetest)
 	
 def read_text_corpus():
@@ -281,6 +292,7 @@ def predict_hatespeech(X_test, model_file=None):
 	json_file.close()
 	loaded_model = model_from_json(loaded_model_json)
 	loaded_model.load_weights(saved_model + ".h5")
+	print(loaded_model)
 
 	y_pred = loaded_model.predict_classes(X_test)
 	K.clear_session()
@@ -304,28 +316,73 @@ def text(X_test_text, cbow_file=None, model_file=None):
 
 	return y_pred
 
-def akustik(dataTest_akustik):
-	print("main")
+def akustik(filename, model_file=None):
+	
+	for file in filename:
+		if ("lld" in file):
+			file_lld = file
+	dataTest_akustik = read_one_data(file_lld)
+	
 	frame_pad_size = 750
 	n_features = dataTest_akustik.iloc[:, 2:-1].shape[1]
 	print("==================================")
 	print("Preprocessing Test")
 	print("==================================")
 	X_test_akustik, y_test_akustik = preprocess(dataTest_akustik, frame_pad_size, n_features)
-	lstm = lstm_akustik(X_train, y_train, max_length=pad_size, n_features=n_features)
-	
+	# lstm = lstm_akustik(X_train, y_train, max_length=pad_size, n_features=n_features)
+	y_pred = predict_hatespeech(X_test_akustik, model_file)
+	return y_pred
 
 # def akustik():
 
+def fuse(X_test_text, filename, model_fuse=None, model_cbow=None):
+	tokenizer_test = Tokenize(X_test_text)
+	X_test_text = tokenizer_test.tokenize_rid_punct()
+	print(X_test_text)
 
-# def fuse():
+	if (model_cbow != None):
+		cbow = script_dir + "/static/model/word2vec/" + model_cbow
+		word2vec = WordEmbedding()
+		word2vec_model = word2vec.loadWordEmbedding(cbow)
+		em_vector_size = 200
+		word_pad_size = 40
+		X_test_text = embedding(word2vec_model, X_test_text, em_vector_size, word_pad_size)
+		
+
+	for file in filename:
+		if ("lld" in file):
+			file_lld = file
+	dataTest_akustik = read_one_data(file_lld)
 
 
+	frame_pad_size = 750
+	n_features = dataTest_akustik.iloc[:, 2:-1].shape[1]
+	print("==================================")
+	print("Preprocessing Test")
+	print("==================================")
+	X_test_akustik, y_test_akustik = preprocess(dataTest_akustik, frame_pad_size, n_features)
+	y_pred = predict_hatespeech([X_test_text, X_test_akustik] , model_fuse)
 
-# def main():
+	return y_pred
+	
+
+def main():
 # 	# dataTrain_text, dataTest_text = read_dataset()
-# 	# dataTrain_akustik, dataTest_akustik = read_prosody_lld()
+	filetest = script_dir + "static/arff/IS10_paraling_lld_test.csv"
+	dataTest_akustik = read_one_data(filetest)
 
+	model_file = "IS10_1"
+	frame_pad_size = 750
+	n_features = dataTest_akustik.iloc[:, 2:-1].shape[1]
+	print("==================================")
+	print("Preprocessing Test")
+	print("==================================")
+	X_test_akustik, y_test_akustik = preprocess(dataTest_akustik, frame_pad_size, n_features)
+	
+	y_pred = predict_hatespeech(X_test_akustik, model_file)
+	print(y_pred)
+	evaluate(y_test_akustik, y_pred)
+	
 # 	# # Save/Load model
 	
 # if __name__ == "__main__":

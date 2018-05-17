@@ -1,6 +1,11 @@
 from flask import Flask, redirect, url_for, request, render_template
-import hatespeech as f
+import hatespeech as hs
+import features_extraction_IS10_dataTest as FEConfig
+import arffToCsv as converter
+import os
 app = Flask(__name__)
+
+script_dir = os.path.dirname(__file__)
 
 @app.route('/success/<name>')
 def success(name):
@@ -13,17 +18,37 @@ def predict():
 		text = request.form['txtHateSpeech']
 		if (request.files):
 			audio = request.files['audioHateSpeech']
-			audio.save(audio.filename)
+			audio.save(os.path.join(script_dir, "static/audio/" + audio.filename))
 		else:
 			audio = None
 		if (text != '' or audio != None):
 			if (text != ''):
 				if (audio != None):
 					# do both
-					return redirect(url_for('success', name = text + " " + audio.filename))
+					FEConfig.config(os.path.join(script_dir, "static/audio/"), audio.filename)
+					files = [arff for arff in os.listdir('static/arff/') if arff.endswith(".arff")]
+					file_akustik = []
+					for file in files:
+						with open('static/arff/' + file , "r") as inFile:
+							content = inFile.readlines()
+							name,ext = os.path.splitext(inFile.name)
+							new = converter.toCsv(content)
+						with open(name + ".csv", "w") as outFile:
+							outFile.writelines(new)
+							file_akustik.append(name+".csv")
+
+					y_pred = hs.fuse(text, filename=file_akustik, model_fuse="is10_ES"
+						, model_cbow="cbow_200")
+
+					# if (y_pred[0] == 0):
+					# 	y_pred = "No Hate Speech"
+					# else:
+					# 	y_pred = "Hate Speech"
+
+					return redirect(url_for('success', name = y_pred))
 				else:
 					# do text only
-					y_pred = f.text(text, cbow_file="cbow_200", model_file="WE_adam")
+					y_pred = hs.text(text, cbow_file="cbow_200", model_file="WE_adam")
 					if (y_pred[0] == 0):
 						y_pred = "No Hate Speech"
 					else:
@@ -33,8 +58,20 @@ def predict():
 			else:
 				# do audio only
 
-				akustik()
-				return redirect(url_for('success', name = audio.filename))
+				# Main loop for reading and writing files
+				FEConfig.config(os.path.join(script_dir, "static/audio/"), audio.filename)
+				files = [arff for arff in os.listdir('static/arff/') if arff.endswith(".arff")]
+				file_akustik = []
+				for file in files:
+					with open('static/arff/' + file , "r") as inFile:
+						content = inFile.readlines()
+						name,ext = os.path.splitext(inFile.name)
+						new = converter.toCsv(content)
+					with open(name + ".csv", "w") as outFile:
+						outFile.writelines(new)
+						file_akustik.append(name+".csv")
+				y_pred = hs.akustik(file_akustik, "IS10_2")
+				return redirect(url_for('success', name = y_pred))
 
 		else:
 			return redirect(url_for('success', name = 'fail'))
