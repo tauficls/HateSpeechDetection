@@ -1,0 +1,101 @@
+<!--HOME PAGE-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Hate Speech Detection</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Boostrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../static/css/main.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src=></script>
+	</head>
+
+	<body>
+
+		<header id="main-background">
+			<nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo">
+				<div class="container">
+					<div class="collapse navbar-collapse" id="main-navbar">
+						<ul class="navbar-nav mr-auto w-100 justify-content-end">
+							<li class="nav-item">
+								<a class="nav-link page-scroll" href="#home">Beranda</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link page-scroll" href="#definition">Penjelasan</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link page-scroll" href="#demo">Demo</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link page-scroll" href="#about">Tentang Kami</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link page-scroll" href="#contact">Kontak</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+			<div class="container">
+				<div class="row justify-content-md-center">
+					<div class="col-md-10">
+						<div class="contents text-center">
+							<h1>Sistem Deteksi Ujaran Kebencian</h1>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+
+		<section id="definition" class="section">
+			<div class="container text-center">
+				<h3>Penjelasan</h3>
+				<hr>
+			</div>
+		</section>
+
+
+		<section id="demo" class="section">
+			<form method="POST" action="{{ url_for('predict') }}" enctype="multipart/form-data">
+			<div class="container text-center">
+				<h3>Tuliskan kalimat yang ingin diklasifikasi</h3>
+				<div class="row">
+					<div class="col-sm-3 col-xs-4">
+					</div>
+					<div class="col-sm-6 col-xs-5">
+						<input class="form-control" type="text" name="txtHateSpeech" placeholder="masukan kalimat">
+					</div>
+				</div>
+				<h3>Unggah file audio disini</h3>
+				<input name="audioHateSpeech" type="file" accept=".wav" />
+				<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search">Klasifikasi</span></button>
+			</div>
+			<br />
+		</form><br />
+		</section>
+
+
+		<section id="about" class="section">
+			<div class="container text-center">
+				<p>Tentang Kami</p>
+			</div>
+		</section>
+
+
+		<section id="contact" class="section">
+			<div class="container text-center">
+				<p>Kontak Kami</p>
+			</div>
+		</section>
+		
+		
+	</body>
+</html>
