@@ -40,10 +40,10 @@ def predict():
 					y_pred = hs.fuse(text, filename=file_akustik, model_fuse="is10_ES"
 						, model_cbow="cbow_200")
 
-					# if (y_pred[0] == 0):
-					# 	y_pred = "No Hate Speech"
-					# else:
-					# 	y_pred = "Hate Speech"
+					if (y_pred[0] == 0):
+						y_pred = "No Hate Speech"
+					else:
+						y_pred = "Hate Speech"
 
 					return redirect(url_for('success', name = y_pred))
 				else:
@@ -90,7 +90,7 @@ def hello_name(user):
 
 @app.route('/')
 def hatespeech():
-	return render_template('main.html')
+	return render_template('index.html')
 
 if __name__ == '__main__':
    app.run(debug=True)
