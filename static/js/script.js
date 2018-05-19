@@ -11,9 +11,18 @@ $(document).ready(function(){
       $('html, body').animate({
         scrollTop: $(hash).offset().top - 48
       }, 1000, function(){
-   
-        window.location.hash = hash - 48;
       });
     }
   });
+
+  $('#read-more').on('click', function () {
+    text = $('#read-more').text();
+    console.log(text);
+    if (text == "read more") {
+      $('#read-more').text("read less");
+    } else {
+      $('#read-more').text("read more");
+    }
+    $('#more-info').slideToggle(500);
+  })
 })

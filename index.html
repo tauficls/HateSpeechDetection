@@ -1,125 +1,142 @@
 <!--HOME PAGE-->
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Hate Speech Detector</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<head>
+		<title>Hate Speech Detector</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Boostrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-  </head>
+		<!-- Boostrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="static/css/style.css">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet">
+	</head>
 
-  <body id="main" data-spy="scroll" data-target=".navbar" data-offset="50">
-    
-    <div id="home" class="jumbotron jumbotron-fluid mb-0 py-5 parallax">
-      <div class="container justify-content-center">
-        <div class="content text-center">
-          <h1>Hate Speech Detector</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
-        </div>
-      </div>
-    </div>
+	<body id="main" data-spy="scroll" data-target=".navbar" data-offset="50">
+		
+		<div id="home" class="jumbotron jumbotron-fluid mb-0 py-5 parallax">
+			<div class="container justify-content-center">
+				<div class="content text-center">
+					<h1>Hate Speech Detector</h1>
+					<p> A system for hate speech classification. </p>
+				</div>
+			</div>
+		</div>
 
-    <nav class="navbar navbar-expand-lg justify-content-center sticky-top shadow">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" href="#home">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#definition">Definition</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#demo">Demo</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#about">About Us</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#contact">Contact</a>
-        </li>
-      </ul>
-    </nav>
+		<nav class="navbar navbar-expand-lg justify-content-center sticky-top shadow">
+			<ul class="navbar-nav">
+				<li class="nav-item link">
+					<a class="nav-link active" href="#home">Home</a>
+				</li>
+				<li class="nav-item link">
+					<a class="nav-link" href="#about">About</a>
+				</li>
+				<li class="nav-item link">
+					<a class="nav-link" href="#demo">Demo</a>
+				</li>
+			</ul>
+		</nav>
 
-    <div id="definition" class="container justify-content-center">
-      <div class="row align-left">
-        <div class="col-md-3">
-          <img class="img-fluid" src="static/img/def-bg.png">
-        </div>
-        <div class="col-md-9">
-          <h3 class="my-3"> Definition </h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla gravida, tortor non finibus luctus, ex dui viverra lorem, a congue elit nisi eget dui. Curabitur scelerisque, massa nec rutrum fermentum, risus dui tincidunt enim, ut tincidunt massa nibh et purus. Quisque malesuada magna vitae ultrices feugiat. Vivamus ullamcorper nibh ut lacus malesuada, ac interdum mi pharetra.
-          </p>
-        </div>
-      </div>
-    </div>
+		<div id="about" class="container justify-content-center">
+			<div class="row align-left">
+				<div class="col-md-3">
+					<img class="img-fluid" src="static/img/def-bg.png">
+				</div>
+				<div class="col-md-9">
+					<h3 class="my-3"> What this is about. </h3>
+					<p>
+						This is a system for determining whether a text of an audio is classified as a hate speech or not. There are three ways to use Hate Speech Detector: text classification, audio classification, or both. To classify both, please enter a matching text and audio. <br>
+						For more information about hate speech, click <span id="read-more" class="link">read more</span>.
+					</p>
+					<div id="more-info" class="hidden">
+						Hate speech is a form of speech that attacks a person or group on the basis of attributes such as race, religion, ethnic origin, national origin, gender, disability, sexual orientation, or gender identity.<br/>
+						<br/>
+						The law of some countries describes hate speech as speech, gesture or conduct, writing, or display that incites violence or prejudicial action against a protected group or individual on the basis of their membership of the group, or because it disparages or intimidates a protected group, or individual on the basis of their membership of the group.<br/>
+						<br/>
+						There are seven kinds of speech that falls into the category of hate speech, including: <br/>
+						1. Insults, <br/>
+						2. Defamation, <br/>
+						3. Blasphemy, <br/>
+						4. Unpleasant deeds, <br/>
+						5. Provocation, <br/>
+						6. Instigation, and <br/>
+						7. Spreading false news. <br/>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <div id="demo" class="container justify-content-center">
-      <div class="">
-        <form method="POST" action="{{ url_for('predict') }}" enctype="multipart/form-data">
-          <div class="row">
-            <div class="col-md-6 justify-content-right text-right">
-              <div class="form-group">
-                <label for="txtHateSpeech">
-                  <h3>Tuliskan kalimat yang ingin diklasifikasi</h3>
-                </label>
-                <textarea class="form-control" type="text" id="txtHateSpeech" name="txtHateSpeech" placeholder="Masukkan kalimat disini..."></textarea>
-              </div>
-              <button type="submit" class="btn">
-                <span class="glyphicon glyphicon-search">Klasifikasi</span>
-              </button>
-            </div>
-            <div class="col-md-6 justify-content-left">
-              <div class="form-group">
-                <label for="audioHateSpeech">
-                  <h3>Unggah file audio (.wav) disini</h3>
-                </label>
-                <input class="form-control" type="file" id="audioHateSpeech" name="audioHateSpeech" accept=".wav" />
-              </div>
-              <button type="submit" class="btn">
-                <span class="glyphicon glyphicon-search">Klasifikasi</span>
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
+		<hr>
 
-    <div id="about" class="container justify-content-center">
-      <div class="text-center">
-        <h3>About Us</h3>
-      </div>
-    </div>
+		<div id="demo" class="container justify-content-center">
+			<div class="text-center">
+				<h1> Try it. </h1>
+				<form class="mb-5" method="POST" action="sasdas" enctype="multipart/form-data">
+					<div class="row">
+						<div class="col-md-6 justify-content-right text-right">
+							<div class="form-group">
+								<label for="txtHateSpeech">
+									<h5>Textual Classification</h3>
+								</label>
+								<textarea class="form-control" type="text" id="txtHateSpeech" name="txtHateSpeech" placeholder="Enter text here..."></textarea>
+							</div>
+						</div>
+						<div class="col-md-6 justify-content-left text-left">
+							<div class="form-group">
+								<label for="audioHateSpeech">
+									<h5>Audio File (.wav) Classification</h3>
+								</label>
+								<input class="form-control uploader" type="file" id="audioHateSpeech" name="audioHateSpeech" accept=".wav" />
+							</div>
+						</div>
+					</div>
+					<button type="submit" class="btn"> Classify </button>
+				</form>
+			</div>
 
-    <div id="contact" class="container justify-content-center">
-      <div class="text-center">
-        <h3>Contact</h3>
-      </div>
-    </div>
+			<div id="result" class="container justify-content-center py-5 bg-1">
+				<div class="text-center">
+					<h3 class="mb-5"> Result </h3>
+					<div class="row my-3">
+						<div class="col-md-9">
+							This is a text that is used as a dummy for the result part of the web page, because the developer is too lazy to search for Lorem ipsum.
+						</div>
+						<div class="col-md-3 hate">
+							This <span> text </span> is a HATE speech.
+						</div>
+					</div>
+					<div class="row my-3">
+						<div class="col-md-9">
+							Audio testtestdummy.wav
+						</div>
+						<div class="col-md-3 not-hate">
+							This <span> audio </span> is NOT a hate speech.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <footer>
-      <div>
-        &copy; 2018. Taufic Leonardo Sutejo. All rights reserved.
-        <div class="float-right">
-          <a class="up-arrow" href="#home" data-toggle="tooltip" title="Back to Top">
-            <i class="material-icons">
-              keyboard_arrow_up
-            </i>
-          </a>
-        </div>
-      </div>
-    </footer>
+		<footer>
+			<div>
+				&copy; 2018. Taufic Leonardo Sutejo. All rights reserved.
+				<div class="float-right">
+					<a class="up-arrow" href="#home" data-toggle="tooltip" title="Back to Top">
+						<i class="material-icons">
+							keyboard_arrow_up
+						</i>
+					</a>
+				</div>
+			</div>
+		</footer>
 
-  </body>
+	</body>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="static/js/script.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="static/js/script.js"></script>
 </html>
